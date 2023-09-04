@@ -17,7 +17,13 @@
         },
         {
             "name": "kagedansa"
-      	}
+      	},
+          {
+            "name": "EndlessFractal"
+        },
+        {
+            "name": "m-brunet"
+        }
     ],
     "esmodules": [
         "/scripts/main.js"
