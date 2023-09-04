@@ -12,7 +12,7 @@ export default class TurnSubscriber {
     static imgCount = 1;
     static currentImgID = null;
     static nextImgID;
-    static expectedNext;
+    // static expectedNext;
     static startCounterAtOne;
     static useTokens;
     static useNPCTokens;
@@ -22,7 +22,12 @@ export default class TurnSubscriber {
             // Wait for the GM to be available
             this.waitForGM().then((gm) => {
                 // Store the GM color
-                this.gmColor = gm.color;
+                const firstGm = game.users.find((u) => u.isGM && u.active);
+                if (firstGm === null) {
+                    this.gmColor = "#cc3828";
+                } else {
+                    this.gmColor = firstGm["color"];
+                }
                 // Hook that triggers when the combat is updated
                 Hooks.on("updateCombat", (combat, update, options, userId) => {
                     this._onUpdateCombat(combat, update, options, userId);
@@ -30,7 +35,7 @@ export default class TurnSubscriber {
                 // Store the settings values
                 this.startCounterAtOne = Settings.startCounterAtOne;
                 this.useTokens = Settings.useTokens;
-		this.useNPCTokens = Settings.useNPCTokens;
+		        this.useNPCTokens = Settings.useNPCTokens;
             });
         });
     }
@@ -73,7 +78,7 @@ export default class TurnSubscriber {
         // Check if the turn or round has changed
         if (!update["turn"] && !update["round"]) return;
         // Check if the combat has started
-        if (!combat.started) return;
+        if (combat === null || !combat.started) { return; }
         // Check if the current combatant has already been processed
         if (combat.combatant === this.lastCombatant) return;
         // Update the lastCombatant property to the current combatant
@@ -130,7 +135,7 @@ export default class TurnSubscriber {
         this.checkAndDelete("yourTurnBanner");
         const nextImg = document.getElementById(this.nextImgID);
         if (nextImg) {
-            if (combat?.combatant !== this.expectedNext) {
+            if (combat?.combatant !== expectedNext) {
                 nextImg.remove();
                 this.currentImgID = null;
             } else {
@@ -235,11 +240,24 @@ export default class TurnSubscriber {
     // Static method that retrieves the next combatant
     static getNextCombatant(combat) {
         let j = 1;
-        let combatant = combat?.turns[(combat.turn + j) % combat.turns.length];
-        while (combatant.hidden && j < combat.turns.length && !game.user.isGM) {
-            j++;
-            combatant = combat?.turns[(combat.turn + j) % combat.turns.length];
+        let turns = combat.turns;
+        if (game.modules.get('monks-little-details')?.active && !game.user.isGM && game.settings.get('monks-little-details', 'hide-until-turn')) {
+            const started = (combat.turns.length > 0) && (combat.round > 0);
+
+            turns = combat.turns.filter((t, index) => {
+                let combatant = combat.turns.find(c => c.id == t.id);
+                return combatant.hasPlayerOwner || (started && (combat.round > 1 || combat.turn >= index));
+            });        
         }
+
+        do {
+            combatant = turns[(combat.turn + j++) % turns.length];
+        } while (combatant.hidden && (j < turns.length) && !game.user.isGM)
+        // let combatant = combat?.turns[(combat.turn + j) % combat.turns.length];
+        // while (combatant.hidden && j < combat.turns.length && !game.user.isGM) {
+        //     j++;
+        //     combatant = combat?.turns[(combat.turn + j) % combat.turns.length];
+        // }
         return combatant;
     }
     // Static method that generates the HTML for the next turn
