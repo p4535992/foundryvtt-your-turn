@@ -1,54 +1,53 @@
 {
-    "id": "your-turn",
-    "title": "Your Turn!",
-    "description": "Your Turn! is a module that adds a visual display whenever the turn changes.",
-    "version": "1.2.3.1",
-    "compatibility": {
-        "minimum": "10",
-        "verified": 11.299,
-        "maximum": 11
+  "id": "your-turn",
+  "title": "Your Turn! (Rikshy's fork)",
+  "description": "A simple module which adds a user specific to do list.",
+  "version": "1.00",
+  "authors": [
+    {
+      "name": "Autmor"
     },
-    "authors": [
-        {
-            "name": "Autmor"
-        },
-        {
-            "name": "EndlessFractal"
-        },
-        {
-            "name": "kagedansa"
-      	},
-          {
-            "name": "EndlessFractal"
-        },
-        {
-            "name": "m-brunet"
-        }
-    ],
-    "esmodules": [
-        "/scripts/main.js"
-    ],
-    "styles": [
-        "/styles/module.css"
-    ],
-    "languages": [
-        {
-            "lang": "en",
-            "name": "English",
-            "path": "lang/en.json"
-        },
-        {
-            "lang": "de",
-            "name": "German",
-            "path": "lang/de.json"
-        },
-        {
-            "lang": "fr",
-            "name": "French",
-            "path": "lang/fr.json"
-        }
-    ],
-    "url": "https://github.com/EndlessFractal/yourTurn",
-    "download": "https://github.com/EndlessFractal/yourTurn/releases/download/latest/module.zip",
-    "manifest": "https://github.com/EndlessFractal/yourTurn/releases/download/latest/module.json"
+    {
+      "name": "Rikshy"
+    }
+  ],
+  "esmodules": [
+    "./yourTurn.js"
+  ],
+  "styles": [
+    "./styles/module.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    },
+    {
+      "lang": "de",
+      "name": "German",
+      "path": "lang/de.json"
+    }
+  ],
+	"relationships": {
+		"requires": [
+			{
+				"id": "color-picker",
+				"type": "module",
+				"manifest": "https://github.com/Larkinabout/fvtt-color-picker/releases/latest/download/module.json"
+			}
+		]
+	},
+  "url": "https://github.com/Autmor/yourTurn",
+  "manifest": "",
+  "download": "",
+  "bugs": "https://github.com/Autmor/yourTurn/-/issues",
+  "readme": "https://github.com/Autmor/yourTurn/blob/main/README.md",
+  "flags": {
+    "allowBugReporter": true
+  },
+  "compatibility": {
+    "minimum": "10",
+    "verified": "11"
+  }
 }

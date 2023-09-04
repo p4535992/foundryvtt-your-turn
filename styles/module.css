@@ -181,14 +181,6 @@
 }
 
 .yourTurnText {
-  max-height: 100px
-}
-
-.yourTurnSubheading {
-  text-overflow: clip
-}
-
-.yourTurnText {
   font-size: 48pt;
   vertical-align: middle;
   text-align: left;
@@ -233,15 +225,6 @@
   animation: none;
   image-rendering: optimizeSpeed;
   transform: scale(95%);
-}
-
-.yourTurnPreload,.yourTurnPreloadImg {
-  position: absolute;
-  left: 9999px;
-  width: 500px;
-  height: 500px;
-  min-width: 500px;
-  min-height: 500px
 }
 
 .yourTurnImg.med {
